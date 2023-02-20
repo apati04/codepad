@@ -6,6 +6,7 @@ import { fetchPlugin } from './plugins/fetch-plugin';
 
 const App = () => {
     const ref = useRef<any>();
+    const iframe = useRef<any>();
     const [input, setInput] = useState("");
     const [code, setCode] = useState("");
 
@@ -37,15 +38,29 @@ const App = () => {
                 global: "window",
             },
         });
-        console.log("result", result);
-        setCode(result.outputFiles[0].text);
+        // setCode(result.outputFiles[0].text);
+        const { text } = result.outputFiles[0]
+        iframe.current.contentWindow.postMessage(text, '*')
     };
+    // const htmlSrc = 'http://jbook.localhost:3000/test.html'
+    const html = `
+        <html>
+            <head></head>
+            <body>
+                <div id="root"></div>
+                <script>
+                    window.addEventListener('message', (e) => { eval(e.data) }, false)
+                </script>
+            </body>
+        </html>
+    `
     return (
-        <div>
-            <div style={{ width: '600px' }}>
+        <div style={{ padding: 48, display: 'flex', justifyContent: 'space-between' }}>
+            <div id="codeEditor-One-Container" style={{ width: '600px', height: '100%', padding: 20 }}>
                 <TextField
-                    minRows={"3"}
+                    minRows={"20"}
                     multiline
+                    id="codeEditor-One"
                     fullWidth
                     variant="outlined"
                     onKeyDownCapture={({ ctrlKey, key = '' }) => {
@@ -53,18 +68,19 @@ const App = () => {
                             handleSubmit()
                         }
                     }}
-                    maxRows={"7"}
                     onChange={(e) => setInput(e.target.value)}
                     value={input}
                 />
+                <div>
+                    <Button color="primary" onClick={handleSubmit}>Submit</Button>
+                </div>
+                <div>
+                    <pre>{code}</pre>
+                </div>
             </div>
-
-
-            <div>
-                <Button color="primary" onClick={handleSubmit}>Submit</Button>
+            <div style={{ width: '600px', padding: 20, height: 'auto' }}>
+                <iframe width="100%" height="100%" title="code-editor" ref={iframe} sandbox="allow-scripts" srcDoc={html}></iframe>
             </div>
-            <pre>{code}</pre>
-            <iframe src="test.html" />
         </div>
     );
 };
