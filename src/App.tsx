@@ -1,7 +1,7 @@
 import * as esbuild from "esbuild-wasm";
 import { useState, useEffect, useRef } from "react";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, TextareaAutosize } from '@material-ui/core';
 import { fetchPlugin } from './plugins/fetch-plugin';
 
 const App = () => {
@@ -25,6 +25,7 @@ const App = () => {
         if (!ref.current) {
             return;
         }
+        iframe.current.srcdoc = html;
         const result = await ref.current.build({
             entryPoints: ["index.js"],
             bundle: true,
@@ -49,20 +50,26 @@ const App = () => {
             <body>
                 <div id="root"></div>
                 <script>
-                    window.addEventListener('message', (e) => { eval(e.data) }, false)
+                    window.addEventListener('message', (e) => { 
+                        try {
+                            eval(e.data)
+                        } catch (err) {
+                            const root = document.querySelector('#root');
+                            root.innerHTML = '<div style="color: red"><h4>Runtime Error</h4>' + err + '</div>'
+                            console.error(err)
+                        }
+                     }, false)
                 </script>
             </body>
         </html>
     `
     return (
-        <div style={{ padding: 48, display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ padding: 48, }}>
             <div id="codeEditor-One-Container" style={{ width: '600px', height: '100%', padding: 20 }}>
-                <TextField
+                <TextareaAutosize
                     minRows={"20"}
-                    multiline
+                    style={{ width: '100%' }}
                     id="codeEditor-One"
-                    fullWidth
-                    variant="outlined"
                     onKeyDownCapture={({ ctrlKey, key = '' }) => {
                         if (ctrlKey && key.toLowerCase() === 'enter') {
                             handleSubmit()
