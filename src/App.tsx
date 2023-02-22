@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { unpkgPathPlugin } from "./plugins/unpkg-path-plugin";
 import { Button, TextField, TextareaAutosize } from '@material-ui/core';
 import { fetchPlugin } from './plugins/fetch-plugin';
+import CodeEditor from './components/code-editor';
 
 const App = () => {
     const ref = useRef<any>();
@@ -65,6 +66,9 @@ const App = () => {
     `
     return (
         <div style={{ padding: 48, }}>
+            <CodeEditor
+                onChange={value => setInput(value)}
+                initialValue={`const a = 1`} />
             <div id="codeEditor-One-Container" style={{ width: '600px', height: '100%', padding: 20 }}>
                 <TextareaAutosize
                     minRows={"20"}
