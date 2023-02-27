@@ -5,3 +5,5 @@ start localhost:4005
 code editor bundle in the browser
 
 we execute the users code in the iframe.
+
+set NODE_OPTIONS=--openssl-legacy-provider
