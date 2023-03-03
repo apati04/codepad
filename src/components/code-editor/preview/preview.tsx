@@ -6,13 +6,15 @@ interface PreviewProps {
 
 const Preview: React.FC<PreviewProps> = ({ code }) => {
   const iframe = useRef<any>();
-  useEffect(() => {
-    iframe.current.srcdoc = html;
-    iframe.current.contentWindow.postMessage(code, "*");
-  }, [code]);
   const html = `
         <html>
-            <head></head>
+            <head>
+              <style>
+                html {
+                  background-color: white;
+                }
+              </style>
+            </head>
             <body>
                 <div id="root"></div>
                 <script>
@@ -24,11 +26,18 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
                             root.innerHTML = '<div style="color: red"><h4>Runtime Error</h4>' + err + '</div>'
                             console.error(err)
                         }
-                     }, false)
+                    }, false)
                 </script>
             </body>
         </html>
     `;
+  useEffect(() => {
+    iframe.current.srcdoc = html;
+    setTimeout(() => {
+      iframe.current.contentWindow.postMessage(code, "*");
+    }, 50);
+  }, [code, html]);
+
   return (
     <div className="preview-wrapper">
       <iframe
