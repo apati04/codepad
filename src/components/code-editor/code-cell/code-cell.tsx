@@ -7,16 +7,13 @@ import Resizable from "../resizable";
 const CodeCell = () => {
   const [input, setInput] = useState("");
   const [code, setCode] = useState("");
+  const [err, setErr] = useState("");
 
-  const handleSubmit = async () => {
-    const output = await bundle(input);
-    setCode(output);
-    // const htmlSrc = 'http://jbook.localhost:3000/test.html'
-  };
   useEffect(() => {
     let debounce = setTimeout(async () => {
       const output = await bundle(input);
-      setCode(output);
+      setCode(output.code);
+      setErr(output.err);
     }, 1000);
     return () => {
       clearTimeout(debounce);
@@ -38,7 +35,7 @@ const CodeCell = () => {
             initialValue={`const a = 1`}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} bundlingStatus={err} />
       </div>
     </Resizable>
   );

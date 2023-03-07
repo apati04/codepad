@@ -2,9 +2,10 @@ import "./preview.css";
 import { useEffect, useRef } from "react";
 interface PreviewProps {
   code: string;
+  bundlingStatus: string;
 }
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, bundlingStatus }) => {
   const iframe = useRef<any>();
   const html = `
         <html>
@@ -18,15 +19,23 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
             <body>
                 <div id="root"></div>
                 <script>
-                    window.addEventListener('message', (e) => { 
-                        try {
-                            eval(e.data)
-                        } catch (err) {
-                            const root = document.querySelector('#root');
-                            root.innerHTML = '<div style="color: red"><h4>Runtime Error</h4>' + err + '</div>'
-                            console.error(err)
-                        }
-                    }, false)
+                const handleError = (err) => {
+                  const root = document.querySelector("#root");
+                  root.innerHTML =
+                    '<div style="color: red"><h4>Runtime Error</h4>' + err + "</div>";
+                  console.error(err);
+                };
+                window.addEventListener('error', (event) => {
+                  event.preventDefault()
+                  handleError(event.error)
+                })
+                window.addEventListener('message', (e) => { 
+                    try {
+                        eval(e.data)
+                    } catch (err) {
+                      handleError(err)
+                    }
+                }, false)
                 </script>
             </body>
         </html>
@@ -37,7 +46,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
       iframe.current.contentWindow.postMessage(code, "*");
     }, 50);
   }, [code, html]);
-
+  console.log("bundling staus:,", bundlingStatus);
   return (
     <div className="preview-wrapper">
       <iframe
@@ -49,6 +58,7 @@ const Preview: React.FC<PreviewProps> = ({ code }) => {
         sandbox="allow-scripts"
         srcDoc={html}
       />
+      {bundlingStatus && <div className="preview-error">{bundlingStatus}</div>}
     </div>
   );
 };
