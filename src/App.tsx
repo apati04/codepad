@@ -1,11 +1,11 @@
-import { useState } from "react";
-import bundle from "./components/bundler";
-import { CodeCell } from "./components/code-editor";
+// import { useState } from "react";
+// import bundle from "./components/bundler";
+import TextEditor from "./components/code-editor/text-editor";
 
 const App = () => {
   return (
     <div>
-      <CodeCell />
+      <TextEditor />
     </div>
   );
 };
