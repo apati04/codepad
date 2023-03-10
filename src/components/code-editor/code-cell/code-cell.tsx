@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import bundle from "../../bundler";
+import bundle from "../../../bundler";
 import CodeEditor from "../code-editor";
 import Preview from "../preview";
 import Resizable from "../resizable";

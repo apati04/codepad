@@ -1,10 +1,10 @@
 // import { useState } from "react";
-// import bundle from "./components/bundler";
-import TextEditor from "./components/code-editor/text-editor";
+// import bundle from "./bundler";
+import TextEditor from "./components/text-editor";
 
 const App = () => {
   return (
-    <div>
+    <div style={{ padding: "10px" }}>
       <TextEditor />
     </div>
   );
