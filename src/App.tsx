@@ -1,13 +1,14 @@
 // import { useState } from "react";
 // import bundle from "./bundler";
-import TextEditor from "./components/text-editor";
 import { Provider } from "react-redux";
 import { store } from "./state";
+import CellList from "./components/code-editor/code-cell/cell-list";
+
 const App = () => {
   return (
     <Provider store={store}>
       <div style={{ padding: "10px" }}>
-        <TextEditor />
+        <CellList />
       </div>
     </Provider>
   );
