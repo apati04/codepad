@@ -1,7 +1,7 @@
 import { Cell } from "../../../state/cell";
 import CodeCell from "./code-cell";
 import TextEditor from "../../text-editor";
-
+// code list
 interface CellListItemProps {
   cell: Cell;
 }
