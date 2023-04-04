@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import bundle from "../../../bundler";
-import CodeEditor from "../code-editor";
+import bundle from "../../bundler";
+import CodeEditor from "../code-editor/code-editor";
 import Preview from "../preview";
-import Resizable from "../resizable";
-import { Cell } from "../../../state";
-import { useActions } from "../../../hooks/use-actions";
+import Resizable from "../code-editor/resizable";
+import { Cell } from "../../state";
+import { useActions } from "../../hooks/use-actions";
 
 interface CodeCellProps {
   cell: Cell;
