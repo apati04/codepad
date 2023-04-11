@@ -7,7 +7,7 @@ import CellList from "./components/code-cell/cell-list";
 const App = () => {
   return (
     <Provider store={store}>
-      <div style={{ padding: "10px" }}>
+      <div>
         <CellList />
       </div>
     </Provider>

@@ -31,9 +31,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "stretch",
-          height: "100%",
+          height: "calc(100% - 10px)",
         }}
       >
         <Resizable direction="horizontal">
