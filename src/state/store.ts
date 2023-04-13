@@ -20,4 +20,3 @@ export const store = createStore(reducers, {}, applyMiddleware(thunk));
 //     type: "text",
 //   },
 // });
-console.log(store.getState());

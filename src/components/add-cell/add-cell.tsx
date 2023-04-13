@@ -3,18 +3,18 @@ import "./add-cell.css";
 
 // props: id of cell.
 interface AddCellProps {
-  nextCellId: string | null;
+  previousCellId: string | null;
   forceVisible?: boolean;
 }
-const AddCell: React.FC<AddCellProps> = ({ nextCellId, forceVisible }) => {
+const AddCell: React.FC<AddCellProps> = ({ previousCellId, forceVisible }) => {
   const { insertCellAfter } = useActions();
-  console.log("f:", forceVisible);
+  console.log("previousCellId: ", previousCellId);
   return (
     <div className={`add-cell${forceVisible ? " force-visible" : ""}`}>
       <div className="add-buttons">
         <button
           className="button is-rounded is-primary is-small"
-          onClick={() => insertCellAfter(nextCellId, "code")}
+          onClick={() => insertCellAfter(previousCellId, "code")}
         >
           <span className="icon is-small">
             <i className="fas fa-plus"></i>
@@ -23,7 +23,7 @@ const AddCell: React.FC<AddCellProps> = ({ nextCellId, forceVisible }) => {
         </button>
         <button
           className="button is-rounded is-primary is-small"
-          onClick={() => insertCellAfter(nextCellId, "text")}
+          onClick={() => insertCellAfter(previousCellId, "text")}
         >
           <span className="icon is-small">
             <i className="fas fa-plus"></i>
@@ -31,7 +31,6 @@ const AddCell: React.FC<AddCellProps> = ({ nextCellId, forceVisible }) => {
           <span>Text</span>
         </button>
       </div>
-
       <div className="divider"></div>
     </div>
   );

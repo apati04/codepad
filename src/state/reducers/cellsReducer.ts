@@ -2,6 +2,7 @@ import produce from "immer";
 import { Cell } from "../cell";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
+import { log } from "console";
 
 interface CellsState {
   loading: boolean;
@@ -43,15 +44,24 @@ const reducer = produce((state: CellsState = initialState, action: Action) => {
         type: action.payload.type,
         id: randomId(),
       };
+
       state.data[cell.id] = cell;
+
       const foundIndex = state.order.findIndex(
         (id) => id === action?.payload?.id
       );
+
+      console.log("action", action.payload);
+
       if (foundIndex < 0) {
+        console.log("found index: ", cell);
         state.order.unshift(cell.id);
       } else {
-        state.order.splice(foundIndex + 1, 0, cell.id);
+        const index = foundIndex + 1;
+        console.log("not found index: ", cell.id);
+        state.order.splice(index, 0, cell.id);
       }
+      console.log("state: ", state.order);
       return state;
     default:
       return state;
