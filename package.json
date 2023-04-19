@@ -2,6 +2,12 @@
   "name": "jbook",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.13.1"
+  },
+  "prettier": {
+    "tabWidth": 4
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@monaco-editor/react": "3.7.5",
