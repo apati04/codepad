@@ -1,13 +1,13 @@
-import "./preview.css";
-import { useEffect, useRef } from "react";
+import './preview.css';
+import { useEffect, useRef } from 'react';
 interface PreviewProps {
-  code: string;
-  bundlingStatus: string;
+    code: string;
+    bundlingStatus: string;
 }
 
 const Preview: React.FC<PreviewProps> = ({ code, bundlingStatus }) => {
-  const iframe = useRef<any>();
-  const html = `
+    const iframe = useRef<any>();
+    const html = `
         <html>
             <head>
               <style>
@@ -40,27 +40,28 @@ const Preview: React.FC<PreviewProps> = ({ code, bundlingStatus }) => {
             </body>
         </html>
     `;
-  useEffect(() => {
-    iframe.current.srcdoc = html;
-    setTimeout(() => {
-      iframe.current.contentWindow.postMessage(code, "*");
-    }, 50);
-  }, [code, html]);
-  console.log("bundling staus:,", bundlingStatus);
-  return (
-    <div className="preview-wrapper">
-      <iframe
-        style={{ background: "white" }}
-        width="100%"
-        height="100%"
-        title="code-editor"
-        ref={iframe}
-        sandbox="allow-scripts"
-        srcDoc={html}
-      />
-      {bundlingStatus && <div className="preview-error">{bundlingStatus}</div>}
-    </div>
-  );
+    useEffect(() => {
+        iframe.current.srcdoc = html;
+        setTimeout(() => {
+            iframe.current.contentWindow.postMessage(code, '*');
+        }, 50);
+    }, [code, html]);
+    return (
+        <div className="preview-wrapper">
+            <iframe
+                style={{ background: 'white' }}
+                width="100%"
+                height="100%"
+                title="code-editor"
+                ref={iframe}
+                sandbox="allow-scripts"
+                srcDoc={html}
+            />
+            {bundlingStatus && (
+                <div className="preview-error">{bundlingStatus}</div>
+            )}
+        </div>
+    );
 };
 
 export default Preview;

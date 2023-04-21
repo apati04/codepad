@@ -1,13 +1,15 @@
-import produce from "immer";
-import { ActionType } from "../action-types";
-import { Action } from "../actions";
+import produce from 'immer';
+import { ActionType } from '../action-types';
+import { Action } from '../actions';
 
 interface BundleState {
-    [key: string]: {
-        loading: boolean;
-        code: string;
-        err: string;
-    };
+    [key: string]:
+        | {
+              loading: boolean;
+              code: string;
+              err: string;
+          }
+        | undefined;
 }
 
 const initialState: BundleState = {};
@@ -17,8 +19,8 @@ const bundleReducer = produce(
             case ActionType.BUNDLE_START:
                 state[action.payload.cellId] = {
                     loading: true,
-                    code: "",
-                    err: "",
+                    code: '',
+                    err: '',
                 };
                 return state;
             case ActionType.BUNDLE_COMPLETE:
