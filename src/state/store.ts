@@ -6,6 +6,7 @@ import { ActionType } from './action-types';
 
 export const store = createStore(reducers, {}, applyMiddleware(thunk));
 
+// TODO: DEVELOPMENT ONLY: REMOVE WHEN FINISHED
 store.dispatch({
     type: ActionType.INSERT_CELL_AFTER,
     payload: {
