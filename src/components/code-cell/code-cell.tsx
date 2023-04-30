@@ -9,14 +9,33 @@ import './code-cell.css';
 interface CodeCellProps {
     cell: Cell;
 }
-
+const s = () =>
+    `
+        import _React from 'react';
+        import _ReactDOM from 'react-dom';
+        const show = (value) => {
+            const root = document.querySelector('#root');
+            if(typeof value === 'object') {
+                if (value.$$typeof && value.props) {
+                    _ReactDOM.render(value, root)
+                } else {
+                    root.innerHTML = JSON.stringify(value)
+                }
+            } else {
+                root.innerHTML = value;
+            }
+            return root;
+            
+            
+        }
+    `;
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
     const { updateCell, createBundle } = useActions();
     const bundle = useTypedSelector((state) => state.bundles[cell.id]);
     const cumulativeCode = useTypedSelector((state) => {
         const { data, order } = state.cells;
         const orderedCells = order.map((id) => data[id]);
-        const results = [];
+        const results = [s()];
         for (let c of orderedCells) {
             if (c.type === 'code') {
                 results.push(c.content);
